@@ -4,7 +4,21 @@ const jwt = require('jsonwebtoken')
 
 class UserController {
    async auth(req, res) {
-    
+      try {
+         const user = await User.findOne({where: {id: req.user.id}})
+         const token = jwt.sign({id: user.id, email: user.email}, process.env.SECRET_KEY, {expiresIn: '1h'})
+         return res.status(200).json({
+            token,
+            user:{
+               id:user.id,
+               email: user.email,
+               avatar: user.avatar
+            }
+         })
+      } catch (error) {
+         console.log(error)
+         res.status(400).json({message: 'Ошибка сервера'})
+      }
    }
 
    async registration(req, res){
@@ -42,11 +56,12 @@ class UserController {
 
          const token = jwt.sign({id: user.id, email: user.email}, process.env.SECRET_KEY, {expiresIn: '1h'}) //создание токена
 
-         res.status(200).json({
+         return res.status(200).json({
             token,
             user:{
                id:user.id,
-               email: user.email
+               email: user.email,
+               avatar: user.avatar
             }
          })
 
