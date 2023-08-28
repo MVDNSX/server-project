@@ -1,4 +1,4 @@
-const {User} = require('../models/models')
+const {User, Basket} = require('../models/models')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
@@ -32,6 +32,7 @@ class UserController {
 
          const hashPassword = await bcrypt.hash(password, 10) //если такого пользователя нет хэшируем пароль
          const user = await User.create({email, password:hashPassword}) //записываем пользователя в базу
+         await Basket.create({userId: user.id}) // создание привязки корзины к пользователю
          res.status(200).json(user)
 
       } catch (error) {

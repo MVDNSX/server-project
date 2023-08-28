@@ -1,5 +1,5 @@
 const uuid = require('uuid')
-const {User} = require('../models/models')
+const {User, Dish} = require('../models/models')
 const fs = require('fs')
 
 
@@ -21,6 +21,18 @@ class ImgController {
       console.log(error)
       return res.status(400).json({message: 'Ошибка сервера'})
     }
+  }
+
+  async loadDishImg(req,res){
+    const file = req.files.file
+    const user = await User.findOne({where:{id: req.user.id}})
+    const dish = await Dish.findOne({where:{dishId: req.dish.dishId}})
+    if(!user.role === 'admin'){
+      res.status(200).json({message: 'Ошибка доступа'})
+    }
+    const imageName = uuid.v4() + '.jpg'
+    file.mv(process.env.DISHES_PATH + '\/' + imageName)
+    dish.image = imageName
   }
 }
 

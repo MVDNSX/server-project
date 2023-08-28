@@ -16,6 +16,6 @@ module.exports = (req, res, next) => {
     next()
   } catch (error) {
     console.log(error)
-    req.status(400).json({message: 'Ошибка сервера'})
+    res.status(400).json({message: 'Ошибка сервера'})
   }
 }
