@@ -28,7 +28,7 @@ const Basket = sequelize.define('Basket', {
 })
 
 const BasketItem = sequelize.define('BasketItem', {
-  count:{type:DataTypes.INTEGER},
+  count:{type:DataTypes.INTEGER, defaultValue: 1},
   comment: {type:DataTypes.STRING},
   totalCost: {type: DataTypes.DOUBLE},
 }, { timestamps: false })
