@@ -1,7 +1,7 @@
 const sequelize = require('../db')
 const {DataTypes} = require('sequelize')
 
-const User = sequelize.define('User', {
+const User = sequelize.define('user', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   email: {type:DataTypes.STRING, unique: true},
   password: {type:DataTypes.STRING},
@@ -10,8 +10,8 @@ const User = sequelize.define('User', {
 )
 
 
-const Dish = sequelize.define('Dish', {
-  dishId: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+const Product = sequelize.define('product', {
+  productId: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   categoryId: {type: DataTypes.INTEGER},
   name: {type: DataTypes.STRING, unique:true},
   picture: {type:DataTypes.STRING},
@@ -21,15 +21,15 @@ const Dish = sequelize.define('Dish', {
 }
 ) 
 
-const Basket = sequelize.define('Basket', {
+const Basket = sequelize.define('basket', {
   basketId: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true},
   totalDiscount: {type: DataTypes.DOUBLE},
   totalCostBasket: {type: DataTypes.DOUBLE}
 })
 
-const BasketItem = sequelize.define('BasketItem', {
+const ProductBasket = sequelize.define('product_basket', {
   count:{type:DataTypes.INTEGER, defaultValue: 1},
-  comment: {type:DataTypes.STRING},
+  comment: {type:DataTypes.STRING, defaultValue: ''},
   totalCost: {type: DataTypes.DOUBLE},
 }, { timestamps: false })
 
@@ -43,8 +43,9 @@ const BasketItem = sequelize.define('BasketItem', {
 //})
 
 User.hasOne(Basket, {foreignKey: 'userId'})
+Basket.belongsTo(User)
 
-Basket.belongsToMany(Dish, {through: BasketItem, foreignKey: 'basketId'})
-Dish.belongsToMany(Basket, {through: BasketItem, foreignKey: 'dishId'})
+Basket.belongsToMany(Product, {through: ProductBasket, foreignKey: 'basketId'})
+Product.belongsToMany(Basket, {through: ProductBasket, foreignKey: 'productId'})
 
-module.exports = {User, Dish, Basket, BasketItem}
+module.exports = {User, Product, Basket, ProductBasket}

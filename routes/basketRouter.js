@@ -4,9 +4,10 @@ const authMiddleware = require('../middleware/auth.middleware')
 const router = new Router()
 
 router.get('/',authMiddleware, basketController.getItemsBasket)
-router.post('/add', basketController.addItemBasket)
-router.put('/comment', basketController.changeItemComment)
-router.put('/count', basketController.changeItemCount)
-router.delete('/:dishId', basketController.deleteItemBasket)
+//router.get('/:productId',basketController.getOneItemBasket)
+router.post('/add', authMiddleware, basketController.addItemBasket)
+router.put('/comment',authMiddleware, basketController.changeItemComment)
+router.put('/count',authMiddleware, basketController.changeItemCount)
+router.delete('/:productId',authMiddleware, basketController.deleteItemBasket)
 
 module.exports = router
