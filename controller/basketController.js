@@ -1,6 +1,27 @@
 
 const {Basket, Product, ProductBasket } = require('../models/models')
 
+const recalcBasketPrice = async (basketId) => {
+  const basket = await Basket.findOne({where:{basketId}, include: {model: Product}})
+  const totalCostBasket = basket.products.map(item => item.product_basket.totalCostProduct).reduce((acc, cur) => acc + cur, 0).toFixed(2)
+  const totalDiscountBasket = basket.products.map(item => item.product_basket.totalDiscountProduct).reduce((acc, cur) => acc + cur, 0).toFixed(2)
+  await basket.set({
+  totalCostBasket,
+  totalDiscountBasket
+  })
+  await basket.save()
+}
+
+const recalcProductPrice = async (item, product) => {
+  let totalCostProduct = +(item.count * product.finalPrice).toFixed(2)
+  let totalDiscountProduct = +((product.price - product.finalPrice) * item.count).toFixed(2)
+  await item.set({
+    totalCostProduct,
+    totalDiscountProduct
+  }) // записываем новые данные
+  await item.save()
+}
+
 class basketController {
   async getItemsBasket(req, res){
     try {
@@ -12,73 +33,29 @@ class basketController {
       res.status(400).json({message: 'Ошибка сервера'})
     }
   }
-  //async getOneItemBasket(req,res){
-  //  try {
-  //    const basketId = 1
-  //    const dishId = +req.params.dishId
-  //    const item = await BasketItem.findOne({where:{basketId, dishId}})
-  //    return res.status(200).json(item)
-  //  } catch (error) {
-  //    console.log(error)
-  //    res.status(400).json({message: 'Ошибка сервера'})
-  //  }
-  //}
+
   async addItemBasket (req, res) {
     try {     
-      const {basketId} = req.user
+      const {basketId} = req.user // получаем Id корзины в БД
       const {productId} = req.body // получаем данные из запроса
-      if(!basketId) {
-        return res.status(400).json({message: 'Ошибка basketId'})
-      }
-      if(!productId) {
-        return res.status(400).json({message: 'Ошибка productId'})
-      }
+
+      let product = await ProductBasket.findOne({where:{basketId, productId}}) // проверка наличия такого же блюда в корзине
       const bdDish = await Product.findOne({where:{productId}}) // получаем данные блюда из БД
-      const basketItems = await ProductBasket.findOne({where:{basketId, productId}}) // проверка наличия такого же блюда в корзине
-      if(basketItems){
-        await basketItems.increment('count', {by: 1})// если блюдо уже в корзине то увеличиваем количество
-        await basketItems.set({
-          totalCost:+(basketItems.count * bdDish.finalPrice).toFixed(2)
-        }) // пересчитываем стоимость в зависимости от нового количества
-        await basketItems.save()
-        return res.status(200).json(basketItems)
+      if(product){
+        await product.increment('count', {by: 1})// если блюдо уже в корзине то увеличиваем количество
       }else{
-        await ProductBasket.create({productId, basketId, totalCost: bdDish.finalPrice}) // иначе добавляем блюдо в корзину
-        const answer = await Basket.findOne({where:{basketId}, attributes:['basketId', 'totalDiscount', 'totalCostBasket'], include: {model: Product, where:{productId}, attributes:{exclude: ['categoryId', 'createdAt', 'updatedAt', 'discount']}}}) // возврат выборки данных с исключенными атрибутами
-        
-        return res.status(200).json(answer)
+        product = await ProductBasket.create({productId, basketId, totalCost: bdDish.finalPrice}) // иначе добавляем блюдо в корзину
       }
+      await recalcProductPrice(product, bdDish) // пересчитываем общую скидку и стоимость продукта в зависимости от количества и сохраняем значение в бд   
+      await recalcBasketPrice(basketId)
+
+      const basket = await Basket.findOne({where:{basketId}, attributes:['totalCostBasket', 'totalDiscountBasket'], include:{model: Product, where:{productId}, attributes:{exclude:['createdAt', 'updatedAt', 'categoryId']}}})
+      return res.status(200).json(basket)
 
     } catch (error) {
       console.log(error)
       res.status(400).json({message: 'Ошибка сервера'})
     }
-  }
-  async changeItemComment(req, res) {
-    try {
-      const {basketId} = req.user
-      const {productId, comment} = req.body // деструктуризируем тело запроса
-      if(!basketId) {
-        return res.status(400).json({message: 'Ошибка basketId'})
-      }
-      if(!productId) {
-        return res.status(400).json({message: 'Ошибка productId'})
-      }
-      const product = await ProductBasket.findOne({where:{basketId, productId}}) // находим элемент корзины
-      await product.set({
-        comment
-      }) // записываем комментарий из запроса в информацию к элементу корзины
-      await product.save() // сохраняем изменения
-      res.status(200).json({products:{
-        productId: product.productId,
-        product_basket: {
-          comment:product.comment
-        }
-      }})
-    } catch (error) {
-      console.log(error)
-      res.status(400).json({message: 'Ошибка сервера'})
-    } 
   }
 
   async changeItemCount(req, res){
@@ -91,14 +68,50 @@ class basketController {
         count
       }) // меняем количество
       product.totalCost = +(product.count * bdDish.finalPrice).toFixed(2) // пересчитываем стоимость от количества
-      await product.save() //сохраняет
-      res.status(200).json({products:{
-        productId: product.productId,
-        product_basket: {
+      await product.save() //сохраняем
+      await recalcProductPrice (product, bdDish)
+      await recalcBasketPrice(basketId)
+
+      const {totalCostBasket, totalDiscountBasket} = await Basket.findOne({where:{basketId}, attributes: ['totalCostBasket', 'totalDiscountBasket']})
+
+      const answer = {
+        product_basket:{
+          productId:product.productId,
           count:product.count,
-          totalCost:product.totalCost
+          totalCostProduct:product.totalCostProduct,
+          totalDiscountProduct:product.totalDiscountProduct
+        },
+        totalCostBasket,
+        totalDiscountBasket,
+      }
+      
+      res.status(200).json(answer)
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({message: 'Ошибка сервера'})
+    } 
+  }
+
+  async changeItemComment(req, res) {
+    try {
+      const {basketId} = req.user
+      const {productId, comment} = req.body // деструктуризируем тело запроса
+      if(!productId) {
+        return res.status(400).json({message: 'Ошибка productId'})
+      }
+      const product = await ProductBasket.findOne({where:{basketId, productId}}) // находим элемент корзины
+      await product.set({
+        comment
+      }) // записываем комментарий из запроса в информацию к элементу корзины
+      await product.save() // сохраняем изменения
+
+      const answer = {
+        product_basket:{
+          productId:product.productId,
+          comment:product.comment,
         }
-      }})
+      }
+      res.status(200).json(answer)
     } catch (error) {
       console.log(error)
       res.status(400).json({message: 'Ошибка сервера'})
@@ -116,22 +129,17 @@ class basketController {
         return res.status(400).json({message: 'Ошибка productId'})
       }
       await ProductBasket.destroy({where: {basketId, productId}, returning: true})//удаляем элемент из корзины  // подумать о том чтобы попробовать then из промисов
-      res.status(200).json({message: 'Удаление элемента прошло успешно'})
+      await recalcBasketPrice(basketId)
+
+      const answer = await Basket.findOne({where:{basketId}, attributes:['totalDiscountBasket', 'totalCostBasket']})
+      
+      return res.status(200).json(answer)
     } catch (error) {
       console.log(error)
-      res.status(400).json({message: 'Ошибка сервера'})
+      return res.status(400).json({message: 'Ошибка сервера'})
     }
 
   }
 }
 
 module.exports = new basketController()
-
-//const dishes = req.body
-      //const order = await Order.create()
-      //for(let i = 0; i < 1; i++ ){
-      //  await order.addDish(dishes[i].dishesId)
-      //}
-
-      //const finalOrder = await Order.findOne({where:{orderId:25}, include: Dish})
-      //res.status(200).json(finalOrder.Dishes)

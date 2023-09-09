@@ -23,14 +23,15 @@ const Product = sequelize.define('product', {
 
 const Basket = sequelize.define('basket', {
   basketId: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true},
-  totalDiscount: {type: DataTypes.DOUBLE},
+  totalDiscountBasket: {type: DataTypes.DOUBLE},
   totalCostBasket: {type: DataTypes.DOUBLE}
 })
 
 const ProductBasket = sequelize.define('product_basket', {
   count:{type:DataTypes.INTEGER, defaultValue: 1},
   comment: {type:DataTypes.STRING, defaultValue: ''},
-  totalCost: {type: DataTypes.DOUBLE},
+  totalDiscountProduct: {type: DataTypes.DOUBLE},
+  totalCostProduct: {type: DataTypes.DOUBLE},
 }, { timestamps: false })
 
 
