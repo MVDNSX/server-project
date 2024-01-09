@@ -6,14 +6,15 @@ class UserController {
    async auth(req, res) {
       try {
          const user = await User.findOne({where: {id: req.user.id}, include:{model: Basket, attributes:['basketId']}})
-         const token = jwt.sign({id: user.id, email: user.email, basketId: user.basket.basketId}, process.env.SECRET_KEY, {expiresIn: '1h'})
+         const token = jwt.sign({id: user.id, email: user.email, role:user.role, basketId: user.basket.basketId}, process.env.SECRET_KEY, {expiresIn: '1h'})
          return res.status(200).json({
             token,
             user:{
                id:user.id,
                email: user.email,
                avatar: user.avatar,
-               basketId: user.basket.basketId
+               role: user.role,
+               basketId: user.basket.basketId,
             }
          })
       } catch (error) {
@@ -39,6 +40,7 @@ class UserController {
                id:user.id,
                email: user.email,
                avatar: user.avatar,
+               role: user.role,
                basketId: basket.basketId
             },
             message:'Регистрация прошла успешно!'
@@ -66,7 +68,7 @@ class UserController {
          
          const basket = await user.getBasket() //
 
-         const token = jwt.sign({id: user.id, email: user.email, basketId: basket.basketId}, process.env.SECRET_KEY, {expiresIn: '1h'}) //создание токена с действием токена в 1 час
+         const token = jwt.sign({id: user.id, email: user.email, role: user.role, basketId: basket.basketId}, process.env.SECRET_KEY, {expiresIn: '1h'}) //создание токена с действием токена в 1 час
 
          return res.status(200).json({
             token,
@@ -74,6 +76,7 @@ class UserController {
                id:user.id,
                email: user.email,
                avatar: user.avatar,
+               role: user.role,
                basketId: basket.basketId
             },
             message: 'Авторизация прошла успешно!'

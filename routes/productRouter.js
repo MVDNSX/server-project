@@ -5,8 +5,8 @@ const authMiddleware = require('../middleware/auth.middleware')
 
 router.get('/', productController.allProduct)
 router.post('/upload', productController.pictureUpload)
-router.post('/create', productController.createProduct)
-router.put('/edit', productController.editProduct)
-router.delete('/:productId', productController.deleteProduct)
+router.post('/create', authMiddleware, productController.createProduct)
+router.put('/edit', authMiddleware, productController.editProduct)
+router.delete('/:productId', authMiddleware, productController.deleteProduct)
 
 module.exports = router
