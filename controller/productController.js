@@ -1,6 +1,4 @@
 const {Product} = require('../models/models')
-const uuid = require('uuid')
-const fs = ('fs')
 
 class dishesController {
   async allProduct (req, res) {
@@ -15,17 +13,21 @@ class dishesController {
 
   async pictureUpload (req, res) {
     try {
-      
-      const picture = req.files.picture
-      const pictureUpload = uuid.v4() + '.png' // генерируем название картинки
-      picture.mv(process.env.DISHES_PATH + '\\' + pictureUpload); // перемещаем файл с папку с изображениями блюд
-      res.status(200).json({url: pictureUpload})
-      console.log(pictureUpload)
+      if(req.user.role === 'test'){
+        res.status(403).json({message: 'Для аккаунта Test загрузка изображений недоступна'})
+      }
+      if(req.user.role === 'admin'){
+      const pathImage = req.file.path
+      const onlyPickPath = pathImage.replace('dishImage/', '')
+      res.status(200).json({url: onlyPickPath, message: 'Изображение загружено'})
+      }
     } catch (error) {
       console.log(error)
       res.status(400).json({message: 'Ошибка сервера'})
     }
   }
+
+
 
   async createProduct (req, res) {
     try {
