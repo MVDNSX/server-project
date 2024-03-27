@@ -34,8 +34,6 @@ const ProductBasket = sequelize.define('product_basket', {
   totalCostProduct: {type: DataTypes.DOUBLE},
 }, { timestamps: false })
 
-
-
 //const Order = sequelize.define('Order', {
 //  orderId: {type: DataTypes.INTEGER,primaryKey: true, autoIncrement: true},
 //  totalCostOrder: {type: DataTypes.DOUBLE},
