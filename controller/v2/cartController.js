@@ -1,27 +1,18 @@
-const { JSONB } = require('sequelize')
-const {User, Cart, Product} = require('../../models/modelsV2')
+const {Cart, Product} = require('../../models/modelsV2')
 
 class cartController {
-  async addProductCart(req, res) {
+  async addProductInCart(req, res) {
     try {
-      const cart = await Cart.findOne({where: {UserId: 1}})
-      const product = await Product.findOne({where: {id: 2}, attributes: {exclude: ['CategoryId']}}).then(product => product.toJSON())
-      const addedProduct = {
-          id: product.id,
-          name: product.name,
+      const {productId: ProductId} = req.body
+      const {userId: UserId} = req.body
+      const product = await Product.findByPk(ProductId)
+      const cart = await Cart.create({
+          ProductId,
+          UserId,
           quantity: 1,
-          price: product.price,
-          subTotal: product.price,
-          itemInfo: {...product},
-      }
-      cart.products = [
-        ...cart.products,
-        {...addedProduct}
-      ]
-      cart.changed('products', true)
-      await cart.save()
-
-      return res.status(200).json(cart)
+      })
+      await cart.updateProduct(product)
+      res.status(200).json({massage: 'addProductInCart complete'})
     } catch (error) {
       console.log(error)
       res.status(400).json({message: 'addProductCart error'})
@@ -29,12 +20,37 @@ class cartController {
 
   async getCart(req, res) {
     try {
-      const cart = await Cart.findOne({where: {UserId: 1}})
-
-      return res.status(200).json(cart.toJSON())
+      const cart = await Cart.findAll({
+        where: {UserId: 1},
+        include: {
+          model: Product,
+          attributes: {
+            exclude: ['CategoryId']
+          }
+        }
+      })
+      return res.status(200).json(cart)
     } catch (error) {
       console.log(error)
-      res.status(400).json({message: 'addProductCart error'})
+      res.status(400).json({message: 'getCart error'})
+    }
+  }
+
+  async changeQuantityProduct(req, res){
+    try {
+      const {userId: UserId, productId: ProductId, quantity} = req.body
+
+      const product = await Product.findByPk(ProductId)
+      const cart = await Cart.findOne({where:{UserId, ProductId}})
+
+      cart.quantity = quantity
+      cart.save()
+      await cart.updateProduct(product)
+      
+      res.status(200).json({message: 'changeQuantityProduct complete'})
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({message: 'changeQuantityProduct error'})
     }
   }
 }

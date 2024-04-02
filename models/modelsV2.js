@@ -10,7 +10,8 @@ const User = sequelize.define('User', {
 
 const Cart = sequelize.define('Cart', {
   id: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey:true},
-  products: {type: DataTypes.ARRAY(DataTypes.JSONB), defaultValue: []},
+  quantity: {type: DataTypes.INTEGER},
+  totalCost: {type:DataTypes.INTEGER}
   },
   {
     createdAt:false,
@@ -50,6 +51,33 @@ const Cart = sequelize.define('Cart', {
 
   Category.hasMany(Product)
   Product.belongsTo(Category)
+
+  Cart.belongsTo(Product)
+
+  Product.addHook("afterSave", async (product) => {
+    try {
+      const carts = await Cart.findAll({
+        where: {
+          ProductId: product.id
+        }
+      })
+      for(let cart of carts){
+        cart.updateProduct(product)
+      }
+    } catch (error) {
+      console.error('Ошибка при обновлении продукта в корзине: ', error);
+    }
+  })
+
+  Cart.prototype.updateProduct = async function(product){
+    try {
+      this.totalCost = this.quantity * (product.discount ? product.promoPrice : product.price)
+      await this.save()
+
+    } catch (error) {
+      console.error('Ошибка при обновлении продукта в корзине: ', error);
+    }
+  }
 
 
   module.exports = {User, Cart, Category, Product}
