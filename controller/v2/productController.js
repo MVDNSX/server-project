@@ -67,6 +67,37 @@ class productController {
       res.status(400).json({message: 'editProduct error'})
     }
   }
+
+  async createCategory(req, res) {
+    try {
+      const {name, available} = req.body
+      const checkCategory = await Category.findOne({where: {name}})
+      if(checkCategory){
+        return res.status(400).json({message: 'Такая категория уже существует!'})
+      }
+
+      const category = await Category.create({name, available})
+      res.status(200).json(category)
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({message: 'createCategory error'})
+    }
+  }
+
+  async createAll(req, res) {
+    try {
+      const dishes = req.body
+      const final = dishes.map((item) => {
+        const finalPrice = +(item.price - (item.price * item.discount / 100 )).toFixed(2)
+        return {...item, promoPrice: finalPrice}
+      })
+      const all = await Product.bulkCreate(final)
+      res.status(200).json(all)
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({message: 'createAll error'})
+    }
+  }
 }
 
 module.exports = new productController()

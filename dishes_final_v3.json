@@ -1,0 +1,479 @@
+[
+    {
+        "name": "Стейк с картофельным пюре",
+        "description": "Delicious стейк с картофельным пюре.",
+        "price": 25.99,
+        "discount": 10,
+        "picture": "f6944696-d2e8-49fb-b3a7-07c909170895.png",
+        "available": true,
+        "CategoryId": 1
+    },
+    {
+        "name": "Куриные наггетсы с соусом",
+        "description": "Delicious куриные наггетсы с соусом.",
+        "price": 12.99,
+        "discount": 0,
+        "picture": "830cc382-5f1a-4075-9fe2-daf6fdf34265.png",
+        "available": true,
+        "CategoryId": 1
+    },
+    {
+        "name": "Мексиканская острая курица",
+        "description": "Delicious мексиканская острая курица.",
+        "price": 18.99,
+        "discount": 5,
+        "picture": "bd45c7f9-c32c-46ab-9f2b-12b4696e68ff.png",
+        "available": true,
+        "CategoryId": 1
+    },
+    {
+        "name": "Лазанья с мясом",
+        "description": "Delicious лазанья с мясом.",
+        "price": 16.99,
+        "discount": 0,
+        "picture": "40cacd6c-2b26-404d-a9d8-a88cad1b2fe2.png",
+        "available": true,
+        "CategoryId": 1
+    },
+    {
+        "name": "Рыбное филе с овощами",
+        "description": "Delicious рыбное филе с овощами.",
+        "price": 22.99,
+        "discount": 15,
+        "picture": "0ec96c62-b3ac-4b02-90e3-43258b2a283b.png",
+        "available": true,
+        "CategoryId": 1
+    },
+    {
+        "name": "Паста Карбонара",
+        "description": "Delicious паста карбонара.",
+        "price": 14.99,
+        "discount": 0,
+        "picture": "989664d3-c995-46f5-902e-7089477c9797.png",
+        "available": true,
+        "CategoryId": 1
+    },
+    {
+        "name": "Шашлык из свинины",
+        "description": "Delicious шашлык из свинины.",
+        "price": 19.99,
+        "discount": 0,
+        "picture": "994d0929-ded2-4c33-878c-86fde309f381.png",
+        "available": true,
+        "CategoryId": 1
+    },
+    {
+        "name": "Карри с курицей",
+        "description": "Delicious карри с курицей.",
+        "price": 15.99,
+        "discount": 10,
+        "picture": "efad575a-1e5e-4aee-ad9f-c40fdb652fc0.png",
+        "available": true,
+        "CategoryId": 1
+    },
+    {
+        "name": "Бефстроганов с грибами",
+        "description": "Delicious бефстроганов с грибами.",
+        "price": 21.99,
+        "discount": 0,
+        "picture": "72e790a0-ece4-48ac-8791-baa1fe172ba4.png",
+        "available": true,
+        "CategoryId": 1
+    },
+    {
+        "name": "Паэлья с морепродуктами",
+        "description": "Delicious паэлья с морепродуктами.",
+        "price": 23.99,
+        "discount": 5,
+        "picture": "6f234817-1b2b-4891-9598-dd55fc12dbd4.png",
+        "available": false,
+        "CategoryId": 1
+    },
+    {
+        "name": "Цезарь с курицей",
+        "description": "Delicious цезарь с курицей.",
+        "price": 10.99,
+        "discount": 0,
+        "picture": "990aad1c-a433-45fc-9a9e-cbd9c8903fbd.png",
+        "available": true,
+        "CategoryId": 2
+    },
+    {
+        "name": "Греческий салат",
+        "description": "Delicious греческий салат.",
+        "price": 9.99,
+        "discount": 0,
+        "picture": "c2fa099a-0cff-498e-833d-a6007430ea62.png",
+        "available": true,
+        "CategoryId": 2
+    },
+    {
+        "name": "Салат с тунцом и оливками",
+        "description": "Delicious салат с тунцом и оливками.",
+        "price": 12.99,
+        "discount": 0,
+        "picture": "b18acba7-9730-4286-9e43-fe59c61498e3.png",
+        "available": true,
+        "CategoryId": 2
+    },
+    {
+        "name": "Капрезе с моцареллой",
+        "description": "Delicious капрезе с моцареллой.",
+        "price": 11.99,
+        "discount": 0,
+        "picture": "c1c187a4-7e6f-4faa-8bed-7999d2cf1696.png",
+        "available": true,
+        "CategoryId": 2
+    },
+    {
+        "name": "Овощной салат с авокадо",
+        "description": "Delicious овощной салат с авокадо.",
+        "price": 8.99,
+        "discount": 0,
+        "picture": "7c45bd19-584d-4fd6-befb-ea09f9351ff7.png",
+        "available": true,
+        "CategoryId": 2
+    },
+    {
+        "name": "Салат с креветками и айсбергом",
+        "description": "Delicious салат с креветками и айсбергом.",
+        "price": 13.99,
+        "discount": 0,
+        "picture": "7ce8a80c-7454-4fb0-a600-be584fc04cbc.png",
+        "available": true,
+        "CategoryId": 2
+    },
+    {
+        "name": "Салат 'Крабовый'",
+        "description": "Delicious салат 'крабовый'.",
+        "price": 12.99,
+        "discount": 0,
+        "picture": "fa03a34f-9113-4202-97e7-d862922dbae2.png",
+        "available": false,
+        "CategoryId": 2
+    },
+    {
+        "name": "Борщ украинский",
+        "description": "Delicious борщ украинский.",
+        "price": 7.99,
+        "discount": 0,
+        "picture": "425c3413-134e-40a1-b1b3-46f10be2f9a2.png",
+        "available": true,
+        "CategoryId": 3
+    },
+    {
+        "name": "Томатный суп с базиликом",
+        "description": "Delicious томатный суп с базиликом.",
+        "price": 6.99,
+        "discount": 0,
+        "picture": "86a1b77d-8fa1-487d-932d-b8699cd0305e.png",
+        "available": true,
+        "CategoryId": 3
+    },
+    {
+        "name": "Грибной крем-суп",
+        "description": "Delicious грибной крем-суп.",
+        "price": 8.99,
+        "discount": 0,
+        "picture": "c8253f93-82d0-4d2d-bd7b-6149bdb84895.png",
+        "available": false,
+        "CategoryId": 3
+    },
+    {
+        "name": "Луковый суп с сырными гренками",
+        "description": "Delicious луковый суп с сырными гренками.",
+        "price": 7.99,
+        "discount": 0,
+        "picture": "7f957b21-6ec7-4245-886b-9574dfa79b85.png",
+        "available": true,
+        "CategoryId": 3
+    },
+    {
+        "name": "Куриный суп с лапшой",
+        "description": "Delicious куриный суп с лапшой.",
+        "price": 7.99,
+        "discount": 0,
+        "picture": "c5f8db2e-9934-48b9-b5b1-6da0dc0bd068.png",
+        "available": true,
+        "CategoryId": 3
+    },
+    {
+        "name": "Гаспачо с огурцами и помидорами",
+        "description": "Delicious гаспачо с огурцами и помидорами.",
+        "price": 8.99,
+        "discount": 0,
+        "picture": "deda534f-b9bc-4634-83d8-c4489d08b4ff.png",
+        "available": true,
+        "CategoryId": 3
+    },
+    {
+        "name": "Фасолевый суп с колбасой",
+        "description": "Delicious фасолевый суп с колбасой.",
+        "price": 7.99,
+        "discount": 0,
+        "picture": "1b909af1-d6a9-4d68-a352-86e6f2453331.png",
+        "available": true,
+        "CategoryId": 3
+    },
+    {
+        "name": "Крем-суп из креветок",
+        "description": "Delicious крем-суп из креветок.",
+        "price": 9.99,
+        "discount": 0,
+        "picture": "fe6a6cd6-e72a-419b-8f37-5f9a7d1a0775.png",
+        "available": true,
+        "CategoryId": 3
+    },
+    {
+        "name": "Говяжий бульон с лапшой",
+        "description": "Delicious говяжий бульон с лапшой.",
+        "price": 7.99,
+        "discount": 0,
+        "picture": "75f758e1-5f81-4279-abbf-960ebe73bdde.png",
+        "available": true,
+        "CategoryId": 3
+    },
+    {
+        "name": "Стейк из говядины",
+        "description": "Delicious стейк из говядины.",
+        "price": 28.99,
+        "discount": 0,
+        "picture": "c5c6535e-7194-44a1-b06e-191f296d3b96.png",
+        "available": true,
+        "CategoryId": 4
+    },
+    {
+        "name": "Креветки на гриле",
+        "description": "Delicious креветки на гриле.",
+        "price": 25.99,
+        "discount": 0,
+        "picture": "44980b88-251b-41ae-8a1d-639326e8250f.png",
+        "available": true,
+        "CategoryId": 4
+    },
+    {
+        "name": "Куриные кебабы",
+        "description": "Delicious куриные кебабы.",
+        "price": 19.99,
+        "discount": 0,
+        "picture": "11a14068-afe9-4882-8638-948a18e9526c.png",
+        "available": true,
+        "CategoryId": 4
+    },
+    {
+        "name": "Лосось на гриле",
+        "description": "Delicious лосось на гриле.",
+        "price": 24.99,
+        "discount": 0,
+        "picture": "78867eb8-76ed-40b1-a12d-3782fa452404.png",
+        "available": true,
+        "CategoryId": 4
+    },
+    {
+        "name": "Свиные ребрышки",
+        "description": "Delicious свиные ребрышки.",
+        "price": 21.99,
+        "discount": 0,
+        "picture": "c6f5aa6c-46dc-4d5a-a380-11c536f5360f.png",
+        "available": true,
+        "CategoryId": 4
+    },
+    {
+        "name": "Овощи на гриле",
+        "description": "Delicious овощи на гриле.",
+        "price": 14.99,
+        "discount": 0,
+        "picture": "42ea8b06-0867-4e4a-bcfa-f2b38d573f6e.png",
+        "available": true,
+        "CategoryId": 4
+    },
+    {
+        "name": "Кальмары на гриле",
+        "description": "Delicious кальмары на гриле.",
+        "price": 18.99,
+        "discount": 0,
+        "picture": "48b40819-1aec-4166-a2b7-e47f42d4737d.png",
+        "available": true,
+        "CategoryId": 4
+    },
+    {
+        "name": "Куриные крылья",
+        "description": "Delicious куриные крылья.",
+        "price": 16.99,
+        "discount": 0,
+        "picture": "31193b5b-ab00-43a5-97be-e392c90c5c85.png",
+        "available": false,
+        "CategoryId": 4
+    },
+    {
+        "name": "Барбекю-свинина",
+        "description": "Delicious барбекю-свинина.",
+        "price": 23.99,
+        "discount": 0,
+        "picture": "0ed56ea0-6076-4f6a-80e5-114361c653db.png",
+        "available": true,
+        "CategoryId": 4
+    },
+    {
+        "name": "Морской окунь на гриле",
+        "description": "Delicious морской окунь на гриле.",
+        "price": 26.99,
+        "discount": 0,
+        "picture": "925c5c10-3f5f-49fd-ac3d-a5902eae1e62.png",
+        "available": true,
+        "CategoryId": 4
+    },
+    {
+        "name": "Брускетта с помидорами",
+        "description": "Delicious брускетта с помидорами.",
+        "price": 8.99,
+        "discount": 0,
+        "picture": "595e960f-dead-4fbe-86bd-023d692f8d5e.png",
+        "available": true,
+        "CategoryId": 5
+    },
+    {
+        "name": "Картофельные дольки с соусом",
+        "description": "Delicious картофельные дольки с соусом.",
+        "price": 6.99,
+        "discount": 0,
+        "picture": "0d89fe35-1c43-4f8a-beb4-5e7a7f6dec58.png",
+        "available": true,
+        "CategoryId": 5
+    },
+    {
+        "name": "Мини-бургеры с говядиной",
+        "description": "Delicious мини-бургеры с говядиной.",
+        "price": 9.99,
+        "discount": 0,
+        "picture": "771e7de8-ae23-4bbd-9995-66eddd63286e.png",
+        "available": true,
+        "CategoryId": 5
+    },
+    {
+        "name": "Сырная тарелка",
+        "description": "Delicious сырная тарелка.",
+        "price": 10.99,
+        "discount": 0,
+        "picture": "4fb273b6-49d0-484e-b233-666320d3e74c.png",
+        "available": true,
+        "CategoryId": 5
+    },
+    {
+        "name": "Тако с мясом",
+        "description": "Delicious тако с мясом.",
+        "price": 8.99,
+        "discount": 0,
+        "picture": "dca7e616-f199-4462-83f0-f159b8afea2c.png",
+        "available": true,
+        "CategoryId": 5
+    },
+    {
+        "name": "Жареные кальмары",
+        "description": "Delicious жареные кальмары.",
+        "price": 9.99,
+        "discount": 0,
+        "picture": "dfa696fc-f0a5-451f-a565-7af884ac919d.png",
+        "available": true,
+        "CategoryId": 5
+    },
+    {
+        "name": "Мини-пицца с пепперони",
+        "description": "Delicious мини-пицца с пепперони.",
+        "price": 8.99,
+        "discount": 0,
+        "picture": "e29cce58-952c-4ff0-803c-2f357011d73e.png",
+        "available": true,
+        "CategoryId": 5
+    },
+    {
+        "name": "Шоколадный торт",
+        "description": "Delicious шоколадный торт.",
+        "price": 7.99,
+        "discount": 0,
+        "picture": "1548a3ce-1860-423c-b8d5-668dbf2177df.png",
+        "available": false,
+        "CategoryId": 6
+    },
+    {
+        "name": "Чизкейк с ягодным соусом",
+        "description": "Delicious чизкейк с ягодным соусом.",
+        "price": 8.99,
+        "discount": 0,
+        "picture": "0e9aacd1-dca5-43f6-a4fe-93cdb440edb2.png",
+        "available": true,
+        "CategoryId": 6
+    },
+    {
+        "name": "Классический тирамису",
+        "description": "Delicious классический тирамису.",
+        "price": 7.99,
+        "discount": 0,
+        "picture": "a14f0db2-a733-4bc5-a510-7b4b31451e39.png",
+        "available": true,
+        "CategoryId": 6
+    },
+    {
+        "name": "Фруктовый салат",
+        "description": "Delicious фруктовый салат.",
+        "price": 6.99,
+        "discount": 0,
+        "picture": "aff33414-2936-4e51-a1ee-e8b322f722b2.png",
+        "available": true,
+        "CategoryId": 6
+    },
+    {
+        "name": "Панна-котта с малиновым соусом",
+        "description": "Delicious панна-котта с малиновым соусом.",
+        "price": 7.99,
+        "discount": 0,
+        "picture": "f43420ac-262f-43a7-8c38-f1ba9725d021.png",
+        "available": true,
+        "CategoryId": 6
+    },
+    {
+        "name": "Шарлотка с яблоками",
+        "description": "Delicious шарлотка с яблоками.",
+        "price": 6.99,
+        "discount": 0,
+        "picture": "e707d57b-d6a1-4433-bf21-f6ee0b5aaa27.png",
+        "available": true,
+        "CategoryId": 6
+    },
+    {
+        "name": "Мороженое с вафельной рожкой",
+        "description": "Delicious мороженое с вафельной рожкой.",
+        "price": 5.99,
+        "discount": 0,
+        "picture": "49ea5edf-6611-4a5f-9cb1-026db88768f5.png",
+        "available": true,
+        "CategoryId": 6
+    },
+    {
+        "name": "Клубничный мусс",
+        "description": "Delicious клубничный мусс.",
+        "price": 7.99,
+        "discount": 0,
+        "picture": "cce9ee00-af95-4e41-ad91-4fee10478922.png",
+        "available": true,
+        "CategoryId": 6
+    },
+    {
+        "name": "Шоколадный фондан",
+        "description": "Delicious шоколадный фондан.",
+        "price": 8.99,
+        "discount": 0,
+        "picture": "d0c68c69-0b05-4a10-8bf8-c994804faa06.png",
+        "available": true,
+        "CategoryId": 6
+    },
+    {
+        "name": "Карамельный пудинг",
+        "description": "Delicious карамельный пудинг.",
+        "price": 6.99,
+        "discount": 0,
+        "picture": "c0f0b93a-8509-41a2-ae4e-a5ea039b4daa.png",
+        "available": true,
+        "CategoryId": 6
+    }
+]
