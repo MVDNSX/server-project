@@ -1,5 +1,5 @@
 const Router = require('express')
-const renderController = require('../controller/v2/renderController')
+const renderController = require('../controller/renderController')
 
 const router = new Router()
 

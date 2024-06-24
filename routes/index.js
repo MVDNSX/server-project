@@ -1,16 +1,16 @@
 const Router = require('express')
 const router = new Router()
 
-const userRouter = require('./v2/userRouter')
+const userRouter = require('./userRouter')
 router.use('/user', userRouter)
 
-const renderRouter = require('./v2/renderRouter')
+const renderRouter = require('./renderRouter')
 router.use('/render', renderRouter)
 
-const productRouter = require('./v2/productRouter')
+const productRouter = require('./productRouter')
 router.use('/product', productRouter)
 
-const cartRouter = require('./v2/cartRouter')
+const cartRouter = require('./cartRouter')
 router.use('/cart', cartRouter)
 
 
