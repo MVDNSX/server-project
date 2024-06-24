@@ -1,124 +1,73 @@
-const {Product, Category} = require('../models/modelsV2')
-const uuid = require('uuid')
-const fs = ('fs')
+const {Category, Product} = require('../../models/modelsV2')
+const {Op} = require('sequelize')
 
-class dishesController {
-  async allProduct (req, res) {
-    try {
-      const products = await Product.findAll()
-      return res.status(200).json(products)
-    } catch (error) {
-      console.log(error)
-      res.status(400).json({message: 'Ошибка сервера'})
-    }
-  }
-
-  async pictureUpload (req, res) {
-    try {
-      const picture = req.files.picture
-      const pictureUpload = uuid.v4() + '.png' // генерируем название картинки
-      picture.mv(process.env.DISHES_PATH + '\/' + pictureUpload); // перемещаем файл с папку с изображениями блюд
-      res.status(200).json({url: pictureUpload})
-      console.log(pictureUpload)
-    } catch (error) {
-      console.log(error)
-      res.status(400).json({message: 'Ошибка сервера'})
-    }
-  }
-
-  async createProduct (req, res) {
-    try {
-      let {price, discount, name, categoryId, picture} = req.body // деструктуризация полученного блюда
-      price = +price
-      discount = +discount
-      categoryId = +categoryId
-      const checkProduct = await Product.findOne({where:{name}}) // проверка наличия такого блюда в БД
-      if(checkProduct){
-       return res.status(400).json({message: 'Такое блюдо уже существует'})
-      }
-
-      const finalPrice = +(price - (price * discount / 100 )).toFixed(2) // расчет финальной цены блюда
-      const product = await Product.create({categoryId, name, price, discount, finalPrice, picture}) // создание блюда в БД
-
-      res.status(200).json(product) // Возврат ответа с созданным блюдом
-    } catch (error) {
-      console.log(error)
-      res.status(400).json({message: 'Ошибка сервера'})
-    }
-  }
-  
-  async editProduct(req, res) {
-    try {
-      let {productId, price, discount, categoryId, name, picture} = req.body
-      productId = +productId
-      price = +price
-      discount = +discount
-      categoryId = +categoryId
-
-      const checkProduct = await Product.findOne({where:{productId}})
-      if(!checkProduct){
-        return res.status(400).json({message: 'Блюдо не найдено'})
-      }
-      const finalPrice = +(price - (price * discount / 100 )).toFixed(2)
-      
-      const product = await Product.update({picture,name, price, discount,categoryId, finalPrice}, {
-        returning: true,
-        where: {productId}
-      })
-      res.status(200).json(product)
-
-    } catch (error) {
-      console.log(error)
-      res.status(400).json({message: 'Ошибка сервера'})
-    }
-  }
-
-  async deleteProduct(req, res) {
-    try {
-      const productId = +req.params.productId
-      const checkProduct = await Product.findOne({where:{productId}})
-      if(!checkProduct){
-        return res.status(400).json({message: 'Блюдо не найдено'})
-      }
-      await Product.destroy({where:{productId}})
-      res.status(200).json({message: 'Блюдо успешно удалено'})
-      
-    } catch (error) {
-      console.log(error)
-      res.status(400).json({message: 'Ошибка сервера'})
-    }
-  }
-
-  async createCategory(req, res) {
-    try {
-      const {name, available} = req.body
-      const checkCategory = await Category.findOne({where: {name}})
-      if(checkCategory){
-        return res.status(400).json({message: 'Такая категория уже существует!'})
-      }
-
-      const category = await Category.create({name, available})
-      res.status(200).json(category)
-    } catch (error) {
-      console.log(error)
-      res.status(400).json({message: 'Ошибка сервера'})
-    }
-  }
-
-  async createAll(req, res) {
-    try {
-      const dishes = req.body
-      const final = dishes.map((item) => {
-        const finalPrice = +(item.price - (item.price * item.discount / 100 )).toFixed(2)
-        return {...item, promoPrice: finalPrice}
-      })
-      const all = await Product.bulkCreate(final)
-      res.status(200).json(all)
-    } catch (error) {
-      console.log(error)
-      res.status(400).json({message: 'Ошибка сервера'})
-    }
-  }
+const calcPromoPrice = (productPrice, productDiscount) => {
+  return productPrice * (1 - productDiscount / 100)
 }
 
-module.exports = new dishesController()
+class productController {
+  async allProductData(req, res) {
+    try {
+      const category = await Category.findAll({
+        attributes: ['id']
+      })
+      const product = await Category.findAll({
+        include: [{
+          attributes:{
+            exclude: ['CategoryId']
+          },
+          model: Product,
+          where: { 
+            CategoryId: {
+              [Op.in]: category.map(c => c.id),
+            }
+          }
+        }]
+      })
+      return res.status(200).json({product})
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({message: 'allCategoryData error'})
+    }
+  }
+  async addProduct(req, res){
+    try {
+      const product = req.body
+
+      const newProduct = Product.build({
+        ...product,
+        promoPrice: calcPromoPrice(product.price, product.discount)
+      })
+
+      await newProduct.save()
+      return res.status(200).json(newProduct)
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({message: 'addProduct error'})
+    }
+  }
+
+  async editProduct(req, res){
+    try {
+      const {id, available, name, description, picture, discount, price, CategoryId} = req.body
+      const product = await Product.findByPk(id)
+      product.available = available
+      product.name = name
+      product.description = description
+      product.picture = picture
+      product.discount = discount
+      product.price = price
+      product.promoPrice = calcPromoPrice(price, discount)
+      product.CategoryId = CategoryId
+      await product.save()
+
+      res.status(200).json(product)
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({message: 'editProduct error'})
+    }
+  }
+
+}
+
+module.exports = new productController()
