@@ -1,4 +1,4 @@
-const {Category, Product} = require('../../models/modelsV2')
+const {Category, Product} = require('../models/modelsV2')
 
 
 class renderController {

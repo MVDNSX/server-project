@@ -1,4 +1,4 @@
-const {User, Cart} = require('../../models/modelsV2')
+const {User, Cart} = require('../models/modelsV2')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
