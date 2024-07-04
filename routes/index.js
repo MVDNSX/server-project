@@ -13,6 +13,11 @@ router.use('/product', productRouter)
 const cartRouter = require('./cartRouter')
 router.use('/cart', cartRouter)
 
+const orderRouter = require('./orderRouter')
+router.use('/order', orderRouter)
+
+
+
 
 //const imageRouter = require('./imageRouter')
 //router.use('/file', imageRouter)

@@ -77,9 +77,32 @@ const Category = sequelize.define('Category', {
   timestamps: false
 });
 
+// Модель заказа
+const Order = sequelize.define('Order', {
+  id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+  status: { type: DataTypes.STRING, allowNull: false, defaultValue: 'pending' },
+  totalCost: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
+  createdAt: { type: DataTypes.DATE, allowNull: false, defaultValue: DataTypes.NOW },
+}, {
+  timestamps: false
+});
+
+// Модель элемента заказа
+const OrderItem = sequelize.define('OrderItem', {
+  id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+  productName: { type: DataTypes.STRING, allowNull: false }, // Новое поле для имени продукта
+  quantity: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 },
+  productPrice: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
+  productPromoPrice: { type: DataTypes.DECIMAL(10, 2), allowNull: true },
+}, {
+  timestamps: false
+});
 // Связи между моделями
 User.hasOne(Cart, { foreignKey: 'userId' });
 Cart.belongsTo(User, { foreignKey: 'userId' });
+
+Cart.hasMany(CartItem, { foreignKey: 'cartId' });
+CartItem.belongsTo(Cart, { foreignKey: 'cartId' });
 
 Cart.belongsToMany(Product, { through: CartItem, foreignKey: 'cartId' });
 Product.belongsToMany(Cart, { through: CartItem, foreignKey: 'productId' });
@@ -87,12 +110,15 @@ Product.belongsToMany(Cart, { through: CartItem, foreignKey: 'productId' });
 Category.hasMany(Product, { foreignKey: 'categoryId' });
 Product.belongsTo(Category, { foreignKey: 'categoryId' });
 
-// Синхронизация моделей с базой данных
-//sequelize.sync({ force: true }).then(() => {
-//  console.log('Database & tables created!');
-//});
+User.hasMany(Order, { foreignKey: 'userId' });
+Order.belongsTo(User, { foreignKey: 'userId' });
 
-module.exports = { User, Cart, Product, Category, CartItem };
+Order.hasMany(OrderItem, { foreignKey: 'orderId' });
+OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
+
+module.exports = { User, Cart, Product, Category, CartItem, Order, OrderItem };
+
+module.exports = { User, Cart, Product, Category, CartItem, Order, OrderItem };
 
 
 
